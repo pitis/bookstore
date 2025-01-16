@@ -12,6 +12,8 @@ import {
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import { bookOutline, personOutline } from 'ionicons/icons'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -47,30 +49,35 @@ import Profile from './pages/profile'
 
 setupIonicReact()
 
+const queryClient = new QueryClient()
+
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Redirect exact path='/' to='/books' />
-          <Route path='/books' render={() => <Books />} exact={true} />
-          <Route path='/profile' render={() => <Profile />} exact={true} />
-        </IonRouterOutlet>
+  <QueryClientProvider client={queryClient}>
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Redirect exact path='/' to='/books' />
+            <Route path='/books' render={() => <Books />} exact={true} />
+            <Route path='/profile' render={() => <Profile />} exact={true} />
+          </IonRouterOutlet>
 
-        <IonTabBar slot='bottom'>
-          <IonTabButton tab='books' href='/books'>
-            <IonIcon icon={bookOutline} />
-            <IonLabel>Book Store</IonLabel>
-          </IonTabButton>
+          <IonTabBar slot='bottom'>
+            <IonTabButton tab='books' href='/books'>
+              <IonIcon icon={bookOutline} />
+              <IonLabel>Book Store</IonLabel>
+            </IonTabButton>
 
-          <IonTabButton tab='profile' href='/profile'>
-            <IonIcon icon={personOutline} />
-            <IonLabel>Profile</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
+            <IonTabButton tab='profile' href='/profile'>
+              <IonIcon icon={personOutline} />
+              <IonLabel>Profile</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+    <ReactQueryDevtools initialIsOpen={false} />
+  </QueryClientProvider>
 )
 
 export default App
