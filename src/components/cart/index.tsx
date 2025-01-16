@@ -13,6 +13,10 @@ import {
 export default function Cart() {
   const { cart, addToCart, removeFromCart } = useAppStore()
 
+  const totalPrice = cart
+    .reduce((acc, item) => acc + item.price * item.quantity, 0)
+    .toFixed(2)
+
   return (
     <div style={{ width: '350px' }}>
       <IonHeader>
@@ -58,6 +62,7 @@ export default function Cart() {
             </IonLabel>
           </IonItem>
         ))}
+        <IonText>Total price: {totalPrice}</IonText>
       </IonList>
     </div>
   )
