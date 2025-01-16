@@ -14,7 +14,6 @@ import {
   IonToast,
 } from '@ionic/react'
 import { useEffect, useState } from 'react'
-import { v4 } from 'uuid'
 
 export default function Books() {
   const [isToastOpen, setIsToastOpen] = useState<boolean>(false)
