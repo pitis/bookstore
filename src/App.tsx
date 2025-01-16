@@ -46,6 +46,7 @@ import '@ionic/react/css/palettes/dark.system.css'
 import './theme/variables.css'
 import Books from './pages/books'
 import Profile from './pages/profile'
+import Layout from './layout'
 
 setupIonicReact()
 
@@ -57,9 +58,11 @@ const App: React.FC = () => (
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Redirect exact path='/' to='/books' />
-            <Route path='/books' render={() => <Books />} exact={true} />
-            <Route path='/profile' render={() => <Profile />} exact={true} />
+            <Layout>
+              <Redirect exact path='/' to='/books' />
+              <Route path='/books' render={() => <Books />} exact={true} />
+              <Route path='/profile' render={() => <Profile />} exact={true} />
+            </Layout>
           </IonRouterOutlet>
 
           <IonTabBar slot='bottom'>
@@ -76,6 +79,7 @@ const App: React.FC = () => (
         </IonTabs>
       </IonReactRouter>
     </IonApp>
+
     <ReactQueryDevtools initialIsOpen={false} />
   </QueryClientProvider>
 )
