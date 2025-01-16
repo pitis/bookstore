@@ -1,4 +1,5 @@
 import { useGetBooks } from '@/api/books/hooks'
+import useAppStore from '@/stores/cart'
 import {
   IonButton,
   IonContent,
@@ -23,6 +24,8 @@ export default function Books() {
     isFetching,
   } = useGetBooks(debouncedSearchText)
 
+  const { addToCart } = useAppStore()
+
   useEffect(() => {
     const debounce = setTimeout(() => {
       setDebouncedSearchText(searchText)
@@ -32,8 +35,6 @@ export default function Books() {
       clearTimeout(debounce)
     }
   }, [searchText])
-
-  console.log(books)
 
   return (
     <>
@@ -74,7 +75,8 @@ export default function Books() {
                 <IonButton
                   slot='end'
                   color='primary'
-                  disabled={book.stock === 0}>
+                  disabled={book.stock === 0}
+                  onClick={() => addToCart(book.id)}>
                   Add me to cart
                 </IonButton>
               </IonItem>
