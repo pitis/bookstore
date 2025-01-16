@@ -1,5 +1,6 @@
 import { useGetBooks } from '@/api/books/hooks'
 import useAppStore from '@/stores/cart'
+import { IBook } from '@/utils/mockData'
 import {
   IonButton,
   IonContent,
@@ -10,20 +11,32 @@ import {
   IonSearchbar,
   IonSpinner,
   IonText,
+  IonToast,
 } from '@ionic/react'
 import { useEffect, useState } from 'react'
+import { v4 } from 'uuid'
 
 export default function Books() {
+  const [isToastOpen, setIsToastOpen] = useState<boolean>(false)
   const [searchText, setSearchText] = useState<string>('')
   const [debouncedSearchText, setDebouncedSearchText] = useState<string>('')
 
   const {
     data: books,
-    isFetched,
     isFetching,
+    isFetched,
   } = useGetBooks(debouncedSearchText)
 
-  const { addToCart, cart } = useAppStore()
+  const { addToCart } = useAppStore()
+
+  function add(book: IBook) {
+    if (!book.stock) {
+      setIsToastOpen(true)
+      return
+    }
+
+    addToCart(book.id)
+  }
 
   useEffect(() => {
     const debounce = setTimeout(() => {
@@ -71,20 +84,19 @@ export default function Books() {
                     </IonText>
                   </p>
                 </IonLabel>
-                <IonButton
-                  slot='end'
-                  color='primary'
-                  disabled={
-                    book.stock === 0 ||
-                    cart.find((item) => item.id == book.id)?.quantity ===
-                      book.stock
-                  }
-                  onClick={() => addToCart(book.id)}>
+                <IonButton slot='end' color='primary' onClick={() => add(book)}>
                   Add me to cart
                 </IonButton>
               </IonItem>
             ))}
         </IonList>
+        <IonToast
+          isOpen={isToastOpen}
+          position='top'
+          message='Desired quantity exceeds the available stock.'
+          onDidDismiss={() => setIsToastOpen(false)}
+          duration={5000}
+        />
       </IonContent>
     </>
   )

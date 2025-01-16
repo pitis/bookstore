@@ -7,11 +7,12 @@ import {
   IonLabel,
   IonList,
   IonText,
+  IonToast,
   IonToolbar,
 } from '@ionic/react'
 
 export default function Cart() {
-  const { cart, addToCart, removeFromCart } = useAppStore()
+  const { cart, boughtCart, addToCart, removeFromCart } = useAppStore()
 
   const totalPrice = cart
     .reduce((acc, item) => acc + item.price * item.quantity, 0)
@@ -62,7 +63,25 @@ export default function Cart() {
             </IonLabel>
           </IonItem>
         ))}
-        <IonText>Total price: {totalPrice}</IonText>
+        <IonText>
+          <h2>Total price: {totalPrice}</h2>
+        </IonText>
+
+        <IonButton
+          id='buy-toast'
+          slot='end'
+          color='primary'
+          disabled={!cart.length}
+          onClick={() => boughtCart()}>
+          Buy
+        </IonButton>
+
+        <IonToast
+          trigger='buy-toast'
+          message='Congratulations on your purchase'
+          position='top'
+          duration={5000}
+        />
       </IonList>
     </div>
   )

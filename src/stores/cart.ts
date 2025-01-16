@@ -10,10 +10,11 @@ interface Store {
   cart: CartItem[]
   addToCart: (bookId: number) => void
   removeFromCart: (bookId: number) => void
+  boughtCart: () => void
 }
 
 const useAppStore = create<Store>((set) => ({
-  stock: mockData,
+  stock: [...mockData],
   cart: [],
   addToCart: (bookId: number) => {
     set((store) => {
@@ -62,6 +63,13 @@ const useAppStore = create<Store>((set) => ({
         stock: store.stock.map((b) =>
           b.id === bookId ? { ...b, stock: b.stock + 1 } : b
         ),
+      }
+    })
+  },
+  boughtCart: () => {
+    set((store) => {
+      return {
+        cart: [],
       }
     })
   },
