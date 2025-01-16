@@ -11,7 +11,7 @@ import {
   IonRouterOutlet,
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
-import Home from './pages/Home'
+import { bookOutline, personOutline } from 'ionicons/icons'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -42,6 +42,8 @@ import '@ionic/react/css/palettes/dark.system.css'
 
 /* Theme variables */
 import './theme/variables.css'
+import Books from './pages/books'
+import Profile from './pages/profile'
 
 setupIonicReact()
 
@@ -50,25 +52,20 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Redirect exact path='/' to='/home' />
-          {/*
-          Use the render method to reduce the number of renders your component will have due to a route change.
-
-          Use the component prop when your component depends on the RouterComponentProps passed in automatically.
-        */}
-          {/* <Route path='/books' render={() => <HomePage />} exact={true} /> */}
-          {/* <Route path='/profile' render={() => <RadioPage />} exact={true} /> */}
+          <Redirect exact path='/' to='/books' />
+          <Route path='/books' render={() => <Books />} exact={true} />
+          <Route path='/profile' render={() => <Profile />} exact={true} />
         </IonRouterOutlet>
 
         <IonTabBar slot='bottom'>
-          <IonTabButton tab='home' href='/home'>
-            {/* <IonIcon icon={playCircle} /> */}
-            <IonLabel>Listen now</IonLabel>
+          <IonTabButton tab='books' href='/books'>
+            <IonIcon icon={bookOutline} />
+            <IonLabel>Book Store</IonLabel>
           </IonTabButton>
 
-          <IonTabButton tab='radio' href='/radio'>
-            {/* <IonIcon icon={radio} /> */}
-            <IonLabel>Radio</IonLabel>
+          <IonTabButton tab='profile' href='/profile'>
+            <IonIcon icon={personOutline} />
+            <IonLabel>Profile</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
