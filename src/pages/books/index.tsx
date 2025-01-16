@@ -7,7 +7,6 @@ import {
   IonItem,
   IonLabel,
   IonList,
-  IonLoading,
   IonSearchbar,
   IonSpinner,
   IonText,
@@ -24,7 +23,7 @@ export default function Books() {
     isFetching,
   } = useGetBooks(debouncedSearchText)
 
-  const { addToCart } = useAppStore()
+  const { addToCart, cart } = useAppStore()
 
   useEffect(() => {
     const debounce = setTimeout(() => {
@@ -75,7 +74,11 @@ export default function Books() {
                 <IonButton
                   slot='end'
                   color='primary'
-                  disabled={book.stock === 0}
+                  disabled={
+                    book.stock === 0 ||
+                    cart.find((item) => item.id == book.id)?.quantity ===
+                      book.stock
+                  }
                   onClick={() => addToCart(book.id)}>
                   Add me to cart
                 </IonButton>
